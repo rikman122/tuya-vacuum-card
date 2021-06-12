@@ -39,7 +39,7 @@ or added by clicking the "Add to lovelace" button on the HACS dashboard after in
 
 ## Screenshots
 
-![tuya-vacuum-card](https://raw.githubusercontent.com/rikman122/tuya-xiaomi-vacuum-card/master/images/default.png)
+![tuya-vacuum-card](https://raw.githubusercontent.com/rikman122/tuya-vacuum-card/master/images/default.png)
 
 ## Credits
 
