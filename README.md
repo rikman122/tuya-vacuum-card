@@ -6,7 +6,7 @@ Simple Home Assistant custom card for vacuums based on Tuya platform provided by
 [![GH-downloads](https://img.shields.io/github/downloads/rikman122/tuya-vacuum-card/total?style=flat-square)](https://github.com/rikman122/tuya-vacuum-card/releases)
 [![GH-last-commit](https://img.shields.io/github/last-commit/rikman122/tuya-vacuum-card.svg?style=flat-square)](https://github.com/rikman122/tuya-vacuum-card/commits/master)
 [![GH-code-size](https://img.shields.io/github/languages/code-size/rikman122/tuya-vacuum-card.svg?color=red&style=flat-square)](https://github.com/rikman122/tuya-vacuum-card)
-[![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=flat-square)](https://github.com/hacs)
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs)
 
 ## Installation
 
