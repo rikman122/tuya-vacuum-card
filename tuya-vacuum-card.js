@@ -281,17 +281,26 @@
     customElements.define('tuya-vacuum-card', TuyaVacuumCard);
 })(window.LitElement || Object.getPrototypeOf(customElements.get("hui-masonry-view") || customElements.get("hui-view")));
 
-const modes = {
+const translations = {
     en: {
         smart: "Smart",
         standby: "Standby",
         chargego: "Go Charge",
         wall_follow: "Wall Follow",
         spiral: "Spiral",
+        left_spiral: "Left Spiral",
+        right_spiral: "Right Spiral",
+        right_bow: "Right Bow",
+        left_bow: "Left Bow",
+        partial_bow: "Partial Bow",
         single: "Spot",
+        mop: "Mop",
+        gentle: "Low",
         low: "Low",
         normal: "Normal",
-        high: "High"
+        quiet: "Quiet",
+        high: "High",
+        strong: "High"
     },
     es: {
         smart: "Inteligente",
@@ -299,10 +308,19 @@ const modes = {
         chargego: "Cargar",
         wall_follow: "Rodapies",
         spiral: "Espiral",
+        left_spiral: "Espiral Izquierda",
+        right_spiral: "Espiral Derecha",
+        right_bow: "Arco Derecha",
+        left_bow: "Arco Izquierda",
+        partial_bow: "Arco Parcial",
         single: "Punto",
+        mop: "Fregar",
+        gentle: "Bajo",
         low: "Bajo",
         normal: "Medio",
-        high: "Alto"
+        quiet: "Silencioso",
+        high: "Alto",
+        strong: "Alto"
     },
 };
 
@@ -314,13 +332,13 @@ function localize(string, search = undefined, replace = undefined) {
         .replace("-", "_");
 
     try {
-        translated = modes[lang][string];
+        translated = translations[lang][string];
     } catch (e) {
-        translated = modes["en"][string];
+        translated = translations["en"][string];
     }
 
     if (translated === undefined) {
-        translated = modes["en"][string];
+        translated = translations["en"][string];
     }
 
     if (search !== undefined && replace !== undefined) {
