@@ -50,13 +50,18 @@
             icon: 'mdi:stop',
             service: 'vacuum.stop',
         },
+        locate: {
+            label: 'Locate',
+            icon: 'mdi:map-marker',
+            service: 'vacuum.locate',
+        },
         return: {
             label: 'Return to Base',
             icon: 'mdi:home-map-marker',
             service: 'vacuum.return_to_base',
         },
     };
-
+    
     const html = LitElement.prototype.html;
     const css = LitElement.prototype.css;
 
