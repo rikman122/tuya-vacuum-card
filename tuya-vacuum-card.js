@@ -77,6 +77,9 @@
 
         static get styles() {
             return css`
+                ha-icon-button ha-icon {
+                    display: flex;
+                }
                 .tvac-dropdown{
                     padding: 0;
                     display: block;
@@ -186,16 +189,17 @@
                 ? this.stateObj.attributes.battery_icon
                 : data.icon;
             return position == 'left' ?
-                html`<ha-icon icon="${icon}" style="margin-right: 10px; ${this.config.styles.icon}"></ha-icon>`
-                : html`<ha-icon icon="${icon}" style="margin-left: 10px; ${this.config.styles.icon}"></ha-icon>`
+                html`<ha-icon .icon=${icon} style="margin-right: 10px;"></ha-icon>`
+                : html`<ha-icon .icon=${icon} style="margin-left: 10px;"></ha-icon>`
         }
 
         renderButton(data) {
             return data && data.show !== false
                 ? html`<ha-icon-button
                     @click="${() => this.callService(data.service, data.service_data)}"
+                    .icon=${data.icon}
                     title="${data.label || ''}">
-                        <ha-icon icon="${data.icon}" style="${this.config.styles.icon}"></ha-icon>
+                    <ha-icon .icon=${data.icon}></ha-icon>
                     </ha-icon-button>`
                 : null;
         }
