@@ -61,7 +61,7 @@
             service: 'vacuum.return_to_base',
         },
     };
-    
+
     const html = LitElement.prototype.html;
     const css = LitElement.prototype.css;
 
@@ -72,7 +72,13 @@
                 _hass: {},
                 config: {},
                 stateObj: {},
+                isOpen: Boolean,
             }
+        }
+
+        constructor() {
+            super();
+            this.isOpen = false;
         }
 
         static get styles() {
@@ -83,13 +89,30 @@
                 .tvac-dropdown{
                     padding: 0;
                     display: block;
+                    position: relative;
                 }
                 .tvac-dropdown__button{
                     display: inline-flex;
+                    font-size: 1em;
+                    justify-content: space-between;
                     align-items: center;
+                    margin: 2px 0;
                 }
                 .tvac-dropdown__button.icon{
                     margin: 0;
+                }
+                .tvac-dropdown__button > div {
+                    display: flex;
+                    flex: 1;
+                    justify-content: space-between;
+                    align-items: center;
+                    max-width: 100%;
+                }
+                mwc-list-item > *:nth-child(2) {
+                    margin-left: 4px;
+                }
+                .tvac-dropdown-open tvac-button ha-icon{
+                    transform: rotate(180deg);
                 }
                 .title {
                     font-size: 20px;
@@ -125,14 +148,18 @@
                     padding-right: 10px;
                     border-right: 2px solid var(--primary-color);
                 }
-                paper-menu-button[focused] ha-icon {
-                    transform: rotate(180deg);
-                }
-                paper-menu-button[focused] ha-icon[focused] {
-                    transform: rotate(0deg);
-                }`;
+                `;
         }
 
+        firstUpdated() {
+            const fan_speed_menu = this.shadowRoot.querySelector('#fan_speed-menu');
+            const fan_speed_button = this.shadowRoot.querySelector('#fan_speed-button');
+            const cleaning_mode_menu = this.shadowRoot.querySelector('#cleaning_mode-menu');
+            const cleaning_mode_button = this.shadowRoot.querySelector('#cleaning_mode-button');
+            fan_speed_menu.anchor = fan_speed_button;
+            cleaning_mode_menu.anchor = cleaning_mode_button;
+        }
+        
         render() {
             return this.stateObj ? html`
             <ha-card>
@@ -169,7 +196,7 @@
 
             if (data.key == 'state') {
                 value = this._hass.localize('component.vacuum.state._.' + value)
-            }else if (data.key == 'fan_speed' || data.key == 'cleaning_mode'){
+            } else if (data.key == 'fan_speed' || data.key == 'cleaning_mode') {
                 value = localize(value)
             }
 
@@ -209,18 +236,37 @@
             const list = this.stateObj.attributes[`${key}_list`];
 
             return html`
-              <paper-menu-button class="tvac-dropdown"slot="dropdown-trigger" horizontal-align="${position}" vertical.align=${'top'} vertical-offset=${30} @click="${e => e.stopPropagation()}">
-                <paper-button class="tvac-dropdown__button" slot="dropdown-trigger">
-                    <span class=tvac-dropdown__label>
-                        ${attribute}
-                    </span>
-                    <ha-icon icon='mdi:chevron-down'></ha-icon>
-                </paper-button>
-                <paper-listbox slot="dropdown-content" selected="${list.indexOf(selected)}" @click="${e => this.handleChange(e, key)}">
-                  ${list.map(item => html`<paper-item value="${item}" style="text-shadow: none;">${localize(item)}</paper-item>`)}
-                </paper-listbox>
-              </paper-menu-button>
-            `;
+                    <div
+                        class="tvac-dropdown"
+                        id=${`${key}-dropdown`}
+                        @click=${e => e.stopPropagation()}>
+                        <tvac-button class='tvac-dropdown__button'
+                            id=${`${key}-button`}
+                            @click=${e => this.toggleMenu(e, key)}>
+                            <div>
+                            <span class='tvac-dropdown__label ellipsis'>
+                                ${attribute}
+                            </span>
+                            <ha-icon class='tvac-dropdown__icon' icon='mdi:chevron-down'></ha-icon>
+                            </div>
+                        </tvac-button>
+                        <mwc-menu
+                            id=${`${key}-menu`}
+                            @selected="${list.indexOf(selected)}"
+                            activatable
+                            corner="BOTTOM_START"
+                            @click="${e => this.handleChange(e, key)}">
+                            ${list.map(item => html`<mwc-list-item value="${item}" style="text-shadow: none;">${localize(item)}</mwc-list-item>`)}
+                        </mwc-menu>
+                    </div>
+                    `;
+        }
+
+        toggleMenu(e, id) {
+            const menu = this.shadowRoot.querySelector(`#${id}-menu`);
+            const dropdown = this.shadowRoot.querySelector(`#${id}-dropdown`);
+            menu.open = !menu.open;
+            dropdown.classList.toggle("tvac-dropdown-open");
         }
 
         getCardSize() {
